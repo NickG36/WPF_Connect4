@@ -7,11 +7,6 @@ namespace Conn4_WPF
 {
     public class C4Board : AbstractBoard
     {
-    	public class C4_Move : CommonMove
-	    {
-	        public int col_idx { get; set;}
-    	}
-
 	    public enum PieceType {BLACK, WHITE, EMPTY};
 
     	public const int NUM_ROWS = 6;
@@ -72,12 +67,12 @@ namespace Conn4_WPF
 	    //
 	    public void setTestPosn()
 	    {
-	        var move = new C4Board.C4_Move();
-	        move.col_idx = 3; makeMove(move);
-		        move.col_idx = 5; makeMove(move);
-	        move.col_idx = 4; makeMove(move);
-		        move.col_idx = 4; makeMove(move);
-	        move.col_idx = 2; makeMove(move);
+	        var move = new AbstractBoard.CommonMove();
+            move.move_idx = 3; makeMove(move);
+		        move.move_idx = 5; makeMove(move);
+	        move.move_idx = 4; makeMove(move);
+		        move.move_idx = 4; makeMove(move);
+	        //move.move_idx = 2; makeMove(move);
 
 	        // -------
             // ----O--
@@ -165,8 +160,8 @@ namespace Conn4_WPF
 	        {
     		    if(canMoveInColumn(col_idx) )
 	    	    {
-		            C4_Move move = new C4_Move();
-		            move.col_idx = col_idx;
+		            var move = new AbstractBoard.CommonMove();
+		            move.move_idx = col_idx;
     		        result.Add(move);
 	    	    }
 	        }
@@ -195,15 +190,8 @@ namespace Conn4_WPF
 	    public override MoveResult makeMove(CommonMove move)
 	    {
 	        MoveResult result;
-	        if( !(move is C4_Move) )
-	        {
-    		    result = new MoveResult(false, false);
-	    	    return result;
-	        }
 
-	        C4_Move c4_move = move as C4_Move;
-
-	        int col_idx = c4_move.col_idx;
+	        int col_idx = move.move_idx;
 	
 	        // TO DO: Check that this is a valid move? This will take extra 
 	        // time though
@@ -221,7 +209,14 @@ namespace Conn4_WPF
 	    }
 
 
-	    // TO DO: Fill in
+	    /// <summary>
+        /// Places a piece in the given row and col. Sometimes this will represent a valid move
+        /// but it also allows a piece to be placed in 'mid-air' to see if the position could
+        /// allow a win later on.
+        /// </summary>
+        /// <param name="row_idx"></param>
+        /// <param name="col_idx"></param>
+        /// <returns></returns>
 	    private MoveResult placePiece(int row_idx, int col_idx)
 	    {
 	        MoveResult result;
@@ -229,7 +224,7 @@ namespace Conn4_WPF
 	        PieceType curr_piece = PieceType.WHITE;
 
 	        if(blackToMove)
-		    curr_piece = PieceType.BLACK;
+		        curr_piece = PieceType.BLACK;
 
 	        squares[row_idx, col_idx] = curr_piece;
 
@@ -238,7 +233,7 @@ namespace Conn4_WPF
 	        blackToMove = !blackToMove;
 
 	        result = new MoveResult(winning_move : over,
-				        invalid_move : false);
+				                    invalid_move : false);
 
 	        return result;
 	    }

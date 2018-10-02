@@ -77,7 +77,7 @@ namespace Conn4_WPF
 	        
 	        for(int col_idx = last_move_col + 1; col_idx < C4Board.NUM_COLS; ++col_idx)
 	        {
-		        if(squares[last_move_row, last_move_col] == this_player)
+		        if(squares[last_move_row, col_idx] == this_player)
 		        {
 		            num_in_line++;
 

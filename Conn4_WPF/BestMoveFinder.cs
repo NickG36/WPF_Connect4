@@ -39,7 +39,15 @@ namespace Conn4_WPF
             return result;
         }
 
-        // Fill in....
+        /// <summary>
+        /// Returns the best move score
+        /// </summary>
+        /// <param name="col_to_move_in">The best move index for this level of move</param>
+        /// <param name="remaining_depth"></param>
+        /// <param name="white_min"></param>
+        /// <param name="black_max"></param>
+        /// <param name="board"></param>
+        /// <returns></returns>
         int findBestBlackMove(AbstractBoard.CommonMove col_to_move_in, int remaining_depth, int white_min, int black_max, C4Board board)
         {
             int best_score = BIG_SCORE;
@@ -48,16 +56,16 @@ namespace Conn4_WPF
 
             List<AbstractBoard.CommonMove> valid_moves = board.validMoves();
 
-            for (int move_idx = 0; move_idx < valid_moves.Count; ++move_idx)
+            for (int black_move_idx = 0; black_move_idx < valid_moves.Count; ++black_move_idx)
             {
                 // Make each move in turn and see if it would be a winning move
-                var curr_move = valid_moves[move_idx];
+                var curr_move = valid_moves[black_move_idx];
                 var new_board = new C4Board(board);
                 move_status = new_board.makeMove(curr_move);
 
                 if (move_status.was_winning_move)
                 {
-                    col_to_move_in = curr_move;
+                    col_to_move_in.move_idx = curr_move.move_idx;
                     return BLACK_WIN;
                 }
 
@@ -81,7 +89,7 @@ namespace Conn4_WPF
                 {
                     // Best move yet
                     best_score = score;
-                    best_move = col_to_move_in;
+                    best_move.move_idx = curr_move.move_idx;
 
                     if (black_max > best_score)
                         black_max = best_score;
@@ -90,34 +98,34 @@ namespace Conn4_WPF
                 if (black_max <= white_min)
                 {
                     // Pruning - short-circuit rest of processing
-                    col_to_move_in = best_move;
+                    col_to_move_in.move_idx = best_move.move_idx;
                     return best_score;
                 }
             }
 
-            col_to_move_in = best_move;
+            col_to_move_in.move_idx = best_move.move_idx;
             return best_score;
         }
 
         // Fill in....
         int findBestWhiteMove(AbstractBoard.CommonMove col_to_move_in, int remaining_depth, int white_min, int black_max, C4Board board)
         {
-            int best_score = -BIG_SCORE;  // TO DO??
+            int best_score = -BIG_SCORE; 
             var best_move = new AbstractBoard.CommonMove();
             var move_status = new AbstractBoard.MoveResult();
 
             List<AbstractBoard.CommonMove> valid_moves = board.validMoves();
 
-            for (int move_idx = 0; move_idx < valid_moves.Count; ++move_idx)
+            for (int white_move_idx = 0; white_move_idx < valid_moves.Count; ++white_move_idx)
             {
                 // Make each move in turn and see if it would be a winning move
-                var curr_move = valid_moves[move_idx];
+                var curr_move = valid_moves[white_move_idx];
                 var new_board = new C4Board(board);
                 move_status = new_board.makeMove(curr_move);
 
                 if (move_status.was_winning_move)
                 {
-                    col_to_move_in = curr_move;
+                    col_to_move_in.move_idx = curr_move.move_idx;
                     return WHITE_WIN;
                 }
 
@@ -142,19 +150,19 @@ namespace Conn4_WPF
                 {
                     // Best move yet
                     best_score = score;
-                    best_move = col_to_move_in;
+                    best_move.move_idx = curr_move.move_idx;
 
                     if (white_min < best_score)
                         white_min = best_score;
+
+                    if (black_max <= white_min)
+                    {
+                        // Pruning - short-circuit rest of processing
+                        col_to_move_in.move_idx = best_move.move_idx;
+                        return best_score;
+                    }
                 }
 
-                // TO DO:
-                if (black_max <= white_min)
-                {
-                    // Pruning - short-circuit rest of processing
-                    col_to_move_in = best_move;
-                    return best_score;
-                }
             }
 
             col_to_move_in = best_move;
