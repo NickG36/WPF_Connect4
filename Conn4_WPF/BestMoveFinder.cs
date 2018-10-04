@@ -19,6 +19,12 @@ namespace Conn4_WPF
             this.board = board;
         }
 
+        public void findBestMove(AbstractBoard.CommonMove best_move)
+        {
+            AbstractBoard.CommonMove the_best_move = findBestMove();
+            best_move.move_idx = the_best_move.move_idx;
+        }
+
         public AbstractBoard.CommonMove findBestMove()
         {
             int alpha = -BIG_SCORE;

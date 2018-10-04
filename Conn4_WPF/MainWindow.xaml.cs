@@ -149,10 +149,28 @@ namespace Conn4_WPF
             curr_move.move_idx = col_idx - 1;
             board.makeMove(curr_move);
 
-            // Find best move
-            board.makeBestMove();
-
             // Update board (including col btns)
+            updateBoard();
+
+            disableColBtns();
+
+            // Use an async move to calculate computer's move. If it takes a long time then
+            // GUI has a chance to update first due to player's move
+
+            makeBestMoveAsync();
+
+            // Find best move
+            //board.makeBestMove();
+        }
+
+        private void makeBestMoveAsync()
+        {
+            var move_finder = new BestMoveFinder(board);
+
+            var best_move = new AbstractBoard.CommonMove();
+            move_finder.findBestMove(best_move);
+
+            board.makeMove(best_move);
             updateBoard();
         }
 
