@@ -32,8 +32,6 @@ namespace Conn4_WPF
         		if(squares[row_idx, last_move_col] == this_player)
 	        	{
 		            num_in_line++;
-
-        		    System.Console.WriteLine("Looking down - found " + num_in_line);
 		        }
         		else
 		        {
@@ -56,8 +54,6 @@ namespace Conn4_WPF
     		    if(squares[last_move_row, col_idx] == this_player)
 	    	    {
 		            num_in_line++;
-
-		            System.Console.WriteLine("Looking left- found " + num_in_line);
     		    }
 	    	    else
 	        	{
@@ -80,8 +76,6 @@ namespace Conn4_WPF
 		        if(squares[last_move_row, col_idx] == this_player)
 		        {
 		            num_in_line++;
-
-        		    System.Console.WriteLine("Looking right- found " + num_in_line);
 		        }
         		else
 		        {
@@ -103,8 +97,6 @@ namespace Conn4_WPF
     		    if(squares[row_idx, last_move_col] == this_player)
 	    	    {
 		            num_in_line++;
-
-    		         System.Console.WriteLine("Looking bottom-left- found " + num_in_line);
     		    }
 	    	    else
 		        {
@@ -126,8 +118,6 @@ namespace Conn4_WPF
 	    	    if(squares[row_idx, last_move_col] == this_player)
 	    	    {
 	    	        num_in_line++;
-
-	    	        System.Console.WriteLine("Looking top-right- found " + num_in_line);
     		    }
 	    	    else
 		        {
@@ -149,8 +139,6 @@ namespace Conn4_WPF
 	    	    if(squares[row_idx, last_move_col] == this_player)
 		        {
 		            num_in_line++;
-
-		            System.Console.WriteLine("Looking top-right- found " + num_in_line);
 	    	    }
 		        else
 		        {
@@ -172,8 +160,6 @@ namespace Conn4_WPF
 	    	    if(squares[row_idx, last_move_col] == this_player)
 		        {
 		            num_in_line++;
-
-		            System.Console.WriteLine("Looking top-right- found " + num_in_line);
     		    }
 	    	    else
 		        {
@@ -195,8 +181,8 @@ namespace Conn4_WPF
 
 	        if(num_in_line >= NUM_EXTRA_SQS_NEEDED)
 	        {
-		        System.Console.WriteLine("MATCH OVER");
-	    	    result = true;
+                // Match over
+                result = true;
 	        }
 	        return result;
 	    }
@@ -217,7 +203,7 @@ namespace Conn4_WPF
 
 	        if(num_in_line >= NUM_EXTRA_SQS_NEEDED)
 	        {
-    		    System.Console.WriteLine("MATCH OVER");
+                // Match over
 	    	    result = true;
 	        }
 	        return result;
@@ -239,8 +225,8 @@ namespace Conn4_WPF
 
 	        if(num_in_line >= NUM_EXTRA_SQS_NEEDED)
 	        {
-    		    System.Console.WriteLine("MATCH OVER");
-	    	    result = true;
+                // Match over
+                result = true;
 	        }
 	        return result;
 	    }
@@ -261,8 +247,8 @@ namespace Conn4_WPF
 
 	        if(num_in_line >= NUM_EXTRA_SQS_NEEDED)
 	        {
-    		    System.Console.WriteLine("MATCH OVER");
-	    	    result = true;
+                // Match over
+                result = true;
 	        }
 	        return result;
 	    }

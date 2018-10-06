@@ -29,7 +29,7 @@ namespace Conn4_WPF
         {
             int alpha = -BIG_SCORE;
             int beta = BIG_SCORE;
-            const int MOVE_DEPTH = 1; // TO DO: increase
+            const int MOVE_DEPTH = 9; // TO DO: increase
 
             var possible_move = new AbstractBoard.CommonMove();
 

@@ -99,7 +99,7 @@ namespace Conn4_WPF
 	            {
     		        if(squares[row_idx, col_idx] == PieceType.EMPTY)
 	    	        {
-		        	    System.Console.WriteLine($"Considering row {row_idx} col {col_idx}");
+		        	    //System.Console.WriteLine($"Considering row {row_idx} col {col_idx}");
         			    var new_board = new C4Board(this);
 
 		        	    if(colour == PieceType.WHITE)
@@ -114,7 +114,7 @@ namespace Conn4_WPF
 		        	        // Give more credit to a lower winning move than a higher up one
         			        result += THREE_IN_LINE_WITH_GAP_SCORE;
 		        	        result += NUM_COLS - col_idx;
-			                System.Console.WriteLine("3 in line with gap found");
+			                //System.Console.WriteLine("3 in line with gap found");
         			    }
 		            }	
     		    } // end for col
@@ -204,10 +204,11 @@ namespace Conn4_WPF
 		        result = new MoveResult(false, false);
 		        return result;
 	        }
-	    
-	        return placePiece(num_moves_already, col_idx);
-	    }
 
+            ++numMovesMade;
+
+            return placePiece(num_moves_already, col_idx);
+	    }
 
 	    /// <summary>
         /// Places a piece in the given row and col. Sometimes this will represent a valid move
@@ -246,6 +247,16 @@ namespace Conn4_WPF
 	        makeMove(best_move);
 	    }
 
+        public bool isBoardFull()
+        {
+            bool result = false;
+
+            if (numMovesMade >= NUM_COLS * NUM_ROWS)
+                result = true;
+
+            return result;
+        }
+
 	    public override string ToString()
 	    {
 	        StringBuilder str_builder = new StringBuilder();
@@ -272,6 +283,8 @@ namespace Conn4_WPF
     	public PieceType[,] squares = new PieceType[NUM_ROWS, NUM_COLS];
 
     	private int[] numPiecesInCol = new int[NUM_COLS];
+
+        private int numMovesMade = 0;
     }
 
 }

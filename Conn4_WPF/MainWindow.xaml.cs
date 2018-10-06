@@ -147,31 +147,58 @@ namespace Conn4_WPF
             // Make move on board
             var curr_move = new AbstractBoard.CommonMove();
             curr_move.move_idx = col_idx - 1;
-            board.makeMove(curr_move);
+            var res = board.makeMove(curr_move);
 
             // Update board (including col btns)
             updateBoard();
 
             disableColBtns();
 
-            // Use an async move to calculate computer's move. If it takes a long time then
-            // GUI has a chance to update first due to player's move
+            if (res.was_winning_move)
+            {
+                gameOver("Game over - you win!");
+            }
+            else
+            {
+                // Use an async move to calculate computer's move. If it takes a long time then
+                // GUI has a chance to update first due to player's move
+                bool res2 = makeBestMoveAsync();
+                if (res2)
+                {
+                    disableColBtns();
 
-            makeBestMoveAsync();
+                    gameOver("Game over - I win!");
+                }
+            }
 
-            // Find best move
-            //board.makeBestMove();
+            if(board.isBoardFull() )
+            {
+                disableColBtns();
+
+                gameOver("It's a draw!");
+            }
         }
 
-        private void makeBestMoveAsync()
+        private void gameOver(string msg)
+        {
+            var result = MessageBox.Show(msg, "Game over", MessageBoxButton.OK);
+        }
+
+        /// <summary>
+        /// Makes best computer move
+        /// </summary>
+        /// <returns>True if this was a winning move</returns>
+        private bool makeBestMoveAsync()
         {
             var move_finder = new BestMoveFinder(board);
 
             var best_move = new AbstractBoard.CommonMove();
             move_finder.findBestMove(best_move);
 
-            board.makeMove(best_move);
+            var res = board.makeMove(best_move);
             updateBoard();
+
+            return res.was_winning_move;
         }
 
         private void disableColBtns()
